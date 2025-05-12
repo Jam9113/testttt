@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dear Café CDO</title>
+  <style>
+   .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000;
+      padding: 10px 20px;
+      color: #fff;
+    }
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .navbar .menu {
+      display: flex;
+      gap: 20px;
+    }
+    .navbar .menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .navbar .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .navbar .Cart, .navbar .logout {
+      background-color: #32cd32;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .navbar .Cart:hover, .navbar .logout:hover {
+      background-color: #28a428;
+    }
+    .menu-section {
+      padding: 20px;
+      text-align: center;
+    }
+    .menu-section h1 {
+      margin-bottom: 20px;
+    }
+    .products {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 200px;
+      text-align: center;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .product-card h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .product-card p {
+      font-size: 16px;
+      color: #555;
+    }
+    .product-card button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .product-card button:hover {
+      background-color: #444;
+    }
+    .cart-section {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px 10px 0 0;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+    .cart-header {
+      background-color: #000;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+    }
+    .cart-items {
+      padding: 10px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .cart-item button {
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cart-item button:hover {
+      background-color: #cc0000;
+    }
+    .cart-footer {
+      padding: 10px;
+      text-align: center;
+    }
+    .cart-footer button {
+      background-color: #32cd32;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cart-footer button:hover {
+      background-color: #28a428;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <img src="logo.jpg" alt="Logo" style="width:50px">
+    <div class="logo">Dear Café CDO</div>
+    <div class="menu">
+      <a href="#">Best Sellers</a>
+      <a href="#">Menu</a>
+      <a href="meeee.html">My Profile</a>
+    </div>
+    <div class="buttons">
+      <button class="Cart" onclick="toggleCart()">Brown Bag Cart</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <h1>BEST SELLING PRODUCTS</h1>
+    <div class="products">
+      <div class="product-card">
+        <img src="sandwich.jpg" alt="Sandwich">
+        <h3>Hotdog Sandwich</h3>
+        <p>P35-P65</p>
+        <button onclick="addToCart('Hotdog Sandwich', 35)">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="promo milktea.jpg" alt="milktea">
+        <h3>Milktea</h3>
+        <p>P99</p>
+        <button onclick="addToCart('Milktea', 99)">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="pater.jpg" alt="Pater">
+        <h3>Pater</h3>
+        <p>P20</p>
+        <button onclick="addToCart('Pater', 20)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <h1>MENU Pricelist</h1> 
+    <img src="menu1.jpg" alt="Menu" style="width: 350px;" height="350px">
+    <img src="promo.jpg" alt="Promo" style="width: 350px;" height="350px">
+  </div>
+
+  <div class="cart-section" id="cartSection">
+    <div class="cart-header">
+      <h2>Brown Bag Cart</h2>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <button onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- ORDER FORM -->
+  <div id="orderForm" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); width:90%; max-width:400px; z-index:999;">
+    <h3>Order Details</h3>
+    <label>Name:<br>
+      <input type="text" id="customerName" style="width:100%; padding:8px; margin-bottom:10px;">
+    </label><br>
+    <label>Delivery Option:<br>
+      <select id="deliveryOption" style="width:100%; padding:8px; margin-bottom:10px;" onchange="toggleAddress()">
+        <option value="pickup">Pickup</option>
+        <option value="delivery">Delivery</option>
+      </select>
+    </label><br>
+    <div id="addressField" style="display:none;">
+      <label>Delivery Address:<br>
+        <textarea id="deliveryAddress" style="width:100%; padding:8px; margin-bottom:10px;"></textarea>
+      </label><br>
+    </div>
+    <label>Payment Method:<br>
+      <select id="paymentMethod" style="width:100%; padding:8px; margin-bottom:10px;" onchange="toggleGCash()">
+        <option value="cash">Cash</option>
+        <option value="gcash">GCash</option>
+        <option value="credit">Credit Card</option>
+        <option value="debit">Debit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="grabpay">GrabPay</option>
+        <option value="cod">Cash on Delivery (COD)</option>
+      </select>
+    </label><br>
+    <div id="gcashField" style="display:none;">
+      <label>GCash Number:<br>
+        <input type="text" id="GCashNumber" style="width:100%; padding:8px; margin-bottom:10px;">
+      </label><br>
+    </div>
+    <button onclick="submitOrder()" style="background:#32cd32; color:white; padding:10px 15px; border:none; border-radius:5px;">Confirm Order</button>
+    <button onclick="closeForm()" style="margin-left:10px; padding:10px 15px; border:none; background:#ccc; border-radius:5px;">Cancel</button>
+  </div>
+
+  <script>
+    const cart = [];
+
+    function addToCart(productName, productPrice) {
+      const existingProduct = cart.find(item => item.name === productName);
+      if (existingProduct) {
+        existingProduct.quantity++;
+      } else {
+        cart.push({ name: productName, price: productPrice, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    function removeFromCart(productName) {
+      const index = cart.findIndex(item => item.name === productName);
+      if (index !== -1) cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById('cartItems');
+      cartItems.innerHTML = '';
+      cart.forEach(item => {
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name} x ${item.quantity}</span>
+            <span>P${item.price * item.quantity}</span>
+            <button onclick="removeFromCart('${item.name}')">Remove</button>
+          </div>`;
+      });
+    }
+
+    function toggleCart() {
+      const cartSection = document.getElementById('cartSection');
+      cartSection.style.display = cartSection.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function checkout() {
+      if (cart.length === 0) return alert('Your cart is empty!');
+      document.getElementById('orderForm').style.display = 'block';
+    }
+
+    function toggleAddress() {
+      const delivery = document.getElementById('deliveryOption').value;
+      document.getElementById('addressField').style.display = delivery === 'delivery' ? 'block' : 'none';
+    }
+
+    function toggleGCash() {
+      const payment = document.getElementById('paymentMethod').value;
+      document.getElementById('gcashField').style.display = payment === 'gcash' ? 'block' : 'none';
+    }
+
+    function closeForm() {
+      document.getElementById('orderForm').style.display = 'none';
+    }
+
+    function submitOrder() {
+      const name = document.getElementById('customerName').value.trim();
+      const delivery = document.getElementById('deliveryOption').value;
+      const address = document.getElementById('deliveryAddress').value.trim();
+      const payment = document.getElementById('paymentMethod').value;
+      const gcashNum = document.getElementById('GCashNumber').value.trim();
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+      if (!name) return alert('Please enter your name.');
+      if (delivery === 'delivery' && !address) return alert('Please enter a delivery address.');
+      if (payment === 'gcash' && !gcashNum) return alert('Please enter your GCash number.');
+
+      const orderData = {
+        customerName: name,
+        items: cart,
+        total,
+        deliveryOption: delivery,
+        address,
+        paymentMethod: payment,
+        gcashNumber: payment === 'gcash' ? gcashNum : null
+      };
+
+      fetch('http://localhost:3000/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(`Order placed successfully! Order ID: ${data.orderId}`);
+        cart.length = 0;
+        renderCart();
+        closeForm();
+        toggleCart();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Failed to submit order.');
+      });
+    }
+
+    function logout() {
+      alert('You have been logged out!');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
