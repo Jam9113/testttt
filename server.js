@@ -1,36 +1,56 @@
 const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const db = new sqlite3.Database('./orders.db');
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+// Create orders table if not exists
+db.run(`CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customerName TEXT,
+  items TEXT,
+  total REAL,
+  deliveryOption TEXT,
+  address TEXT,
+  paymentMethod TEXT,
+  gcashNumber TEXT
+)`);
 
-// Log all requests
-app.use((req, res, next) => {
-  console.log(`>> ${req.method} ${req.url}`);
-  next();
-});
-
-// Handle orders
+// POST /order route
 app.post('/order', (req, res) => {
-  const orderData = req.body;
-  console.log('Order received:', orderData);
+  const { customerName, items, total, deliveryOption, address, paymentMethod, gcashNumber } = req.body;
 
-  // Respond with fake order ID
-  res.json({ message: 'Order received!', orderId: Date.now() });
+  const stmt = db.prepare(`INSERT INTO orders (
+    customerName, items, total, deliveryOption, address, paymentMethod, gcashNumber
+  ) VALUES (?, ?, ?, ?, ?, ?, ?)`);
+
+  stmt.run(
+    customerName,
+    JSON.stringify(items),
+    total,
+    deliveryOption,
+    address,
+    paymentMethod,
+    gcashNumber,
+    function (err) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+      } else {
+        res.status(200).json({ orderId: this.lastID });
+      }
+    }
+  );
 });
 
-// Fallback: Serve frontend.html for all unmatched GET requests (excluding API)
-app.get(/^\/(?!order).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'frontend/dist/index.html'));
-});
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
 
 // Start the server
 app.listen(PORT, () => {
