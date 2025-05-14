@@ -282,12 +282,12 @@
       const cartItems = document.getElementById('cartItems');
       cartItems.innerHTML = '';
       cart.forEach(item => {
-        cartItems.innerHTML += `
+        cartItems.innerHTML += 
           <div class="cart-item">
             <span>${item.name} x ${item.quantity}</span>
             <span>P${item.price * item.quantity}</span>
             <button onclick="removeFromCart('${item.name}')">Remove</button>
-          </div>`;
+          </div>;
       });
     }
 
@@ -295,7 +295,40 @@
       const cartSection = document.getElementById('cartSection');
       cartSection.style.display = cartSection.style.display === 'block' ? 'none' : 'block';
     }
+function submitOrder() {
+  const name = document.getElementById('customerName').value.trim();
+  const delivery = document.getElementById('deliveryOption').value;
+  const address = document.getElementById('deliveryAddress').value.trim();
+  const payment = document.getElementById('paymentMethod').value;
+  const gcashNum = document.getElementById('GCashNumber').value.trim();
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  if (!name) return alert('Please enter your name.');
+  if (delivery === 'delivery' && !address) return alert('Please enter a delivery address.');
+  if (payment === 'gcash' && !gcashNum) return alert('Please enter your GCash number.');
+
+  const orderData = {
+    orderId: Date.now(), // unique ID based on timestamp
+    customerName: name,
+    items: cart,
+    total,
+    deliveryOption: delivery,
+    address,
+    paymentMethod: payment,
+    gcashNumber: payment === 'gcash' ? gcashNum : null
+  };
+
+  // Get existing orders from localStorage
+  const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+  existingOrders.push(orderData);
+  localStorage.setItem('orders', JSON.stringify(existingOrders));
+
+  alert(`Order placed successfully! Order ID: ${orderData.orderId}`);
+  cart.length = 0;
+  renderCart();
+  closeForm();
+  toggleCart();
+}
     function checkout() {
       if (cart.length === 0) return alert('Your cart is empty!');
       document.getElementById('orderForm').style.display = 'block';
@@ -315,46 +348,7 @@
       document.getElementById('orderForm').style.display = 'none';
     }
 
-    function submitOrder() {
-      const name = document.getElementById('customerName').value.trim();
-      const delivery = document.getElementById('deliveryOption').value;
-      const address = document.getElementById('deliveryAddress').value.trim();
-      const payment = document.getElementById('paymentMethod').value;
-      const gcashNum = document.getElementById('GCashNumber').value.trim();
-      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-      if (!name) return alert('Please enter your name.');
-      if (delivery === 'delivery' && !address) return alert('Please enter a delivery address.');
-      if (payment === 'gcash' && !gcashNum) return alert('Please enter your GCash number.');
-
-      const orderData = {
-        customerName: name,
-        items: cart,
-        total,
-        deliveryOption: delivery,
-        address,
-        paymentMethod: payment,
-        gcashNumber: payment === 'gcash' ? gcashNum : null
-      };
-
-      fetch('http://localhost:3000/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData)
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(`Order placed successfully! Order ID: ${data.orderId}`);
-        cart.length = 0;
-        renderCart();
-        closeForm();
-        toggleCart();
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Failed to submit order.');
-      });
-    }
+   
 
     function logout() {
       alert('You have been logged out!');
